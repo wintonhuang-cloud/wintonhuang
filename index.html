@@ -137,7 +137,12 @@
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
     }
-    .hero-visual .camera { font-size: 64px; opacity: .22; }
+    .hero-visual .camera {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      opacity: 1;
+    }
     .hero-tag {
       position: absolute; bottom: 14px; left: 14px;
       background: rgba(26,74,114,.55);
@@ -414,7 +419,7 @@
       </a>
     </div>
     <div class="hero-visual fade-up delay-2">
-      <div class="camera">📷</div>
+      <img class="camera" src="photos/wintoncamra.jpg" alt="Winton" />
       <div class="hero-tag">@wintonh · 攝影與生活記錄</div>
     </div>
   </div>
