@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Winton 家族空間</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── 全域變數 ── */
+    :root {
+      --blue-deep:   #1a4a72;
+      --blue-mid:    #2d6a9f;
+      --blue-soft:   #5a9abf;
+      --blue-pale:   #ddeef8;
+      --blue-light:  #f0f7fd;
+      --blue-border: #c8dff0;
+      --text-main:   #1e3550;
+      --text-muted:  #5a7a98;
+      --text-hint:   #90aec8;
+      --bg-page:     #f2f7fc;
+      --bg-card:     #ffffff;
+      --font-serif:  'Noto Serif TC', serif;
+      --font-sans:   'Noto Sans TC', sans-serif;
+      --radius-sm:   8px;
+      --radius-md:   12px;
+      --radius-lg:   18px;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── 進場動畫 ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp .6s ease both; }
+    .delay-1 { animation-delay: .1s; }
+    .delay-2 { animation-delay: .2s; }
+    .delay-3 { animation-delay: .35s; }
+
+    /* ══════════════════════════════
+       NAV
+    ══════════════════════════════ */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(242,247,252,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--blue-border);
+      padding: 0 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 58px;
+    }
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--blue-mid);
+      letter-spacing: .06em;
+    }
+    .nav-logo span { color: var(--blue-soft); font-weight: 300; }
+    .nav-links {
+      display: flex; gap: 28px; list-style: none;
+    }
+    .nav-links a {
+      font-size: .78rem; color: var(--text-muted);
+      letter-spacing: .05em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--blue-mid); }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    .hero {
+      background: linear-gradient(140deg, #d6eaf8 0%, #c2dcf2 45%, #add0ec 100%);
+      padding: 64px 5vw 56px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -80px; right: -60px;
+      width: 360px; height: 360px;
+      background: rgba(100,170,220,.14);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -50px; left: -20px;
+      width: 200px; height: 200px;
+      background: rgba(100,170,220,.09);
+      border-radius: 50%;
+    }
+    .hero-eyebrow {
+      font-size: .7rem; letter-spacing: .2em;
+      color: var(--blue-soft); text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 600; color: var(--blue-deep);
+      line-height: 1.45; margin-bottom: 14px;
+    }
+    .hero p {
+      font-size: .88rem; color: #4a7a9e;
+      line-height: 1.9; margin-bottom: 24px;
+    }
+    .hero-btn {
+      display: inline-block;
+      background: var(--blue-mid); color: #fff;
+      font-size: .78rem; letter-spacing: .1em;
+      padding: 10px 24px; border-radius: 24px;
+      transition: background .2s, transform .15s;
+    }
+    .hero-btn:hover { background: var(--blue-deep); transform: translateY(-1px); }
+
+    .hero-visual {
+      background: #9ec8e0;
+      border-radius: var(--radius-lg);
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-visual .camera {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      opacity: 1;
+    }
+    .hero-tag {
+      position: absolute; bottom: 14px; left: 14px;
+      background: rgba(26,74,114,.55);
+      color: #d8eef8; font-size: .68rem;
+      padding: 4px 12px; border-radius: 12px;
+      letter-spacing: .06em;
+    }
+
+    /* ══════════════════════════════
+       SECTION 共用
+    ══════════════════════════════ */
+    section { padding: 48px 5vw; }
+    section + section { border-top: 1px solid var(--blue-border); }
+
+    .sec-eyebrow {
+      font-size: .68rem; letter-spacing: .18em;
+      color: var(--blue-soft); text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .sec-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem; font-weight: 600;
+      color: var(--blue-deep);
+    }
+    .sec-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .sec-more {
+      font-size: .75rem; color: var(--blue-soft);
+      transition: color .2s;
+    }
+    .sec-more:hover { color: var(--blue-mid); }
+
+    /* ══════════════════════════════
+       SLIDESHOW（家族相簿）
+    ══════════════════════════════ */
+    .album-section {
+      background: var(--blue-deep);
+      padding: 36px 0 28px;
+      border-top: none;
+    }
+    .album-inner { padding: 0 5vw; }
+    .album-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .album-eyebrow {
+      font-size: .68rem; letter-spacing: .18em;
+      color: #6ab0d0; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .album-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem; color: #e0f0f8; font-weight: 600;
+    }
+    .slide-controls { display: flex; gap: 8px; }
+    .slide-btn {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      color: #b8ddf0; font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .2s;
+      user-select: none;
+    }
+    .slide-btn:hover { background: rgba(255,255,255,.22); }
+
+    .slides-viewport { overflow: hidden; }
+    .slides-track {
+      display: flex; gap: 14px;
+      padding: 0 5vw;
+      transition: transform .45s cubic-bezier(.4,0,.2,1);
+      will-change: transform;
+    }
+    .slide-card {
+      flex: 0 0 calc(33.33% - 10px);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .slide-photo {
+      height: 180px;
+      background: #4a80a8 center/cover no-repeat;
+      position: relative;
+      transition: transform .3s;
+    }
+    .slide-card:hover .slide-photo { transform: scale(1.03); }
+    .slide-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,30,60,.72) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 12px 14px;
+    }
+    .slide-caption { font-size: .78rem; color: #d8eef8; font-weight: 500; }
+    .slide-date    { font-size: .68rem; color: #90c0d8; margin-top: 2px; }
+
+    /* 照片佔位提示 */
+    .slide-placeholder {
+      height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      background: rgba(255,255,255,.06);
+    }
+    .slide-placeholder .ph-icon { font-size: 32px; opacity: .35; }
+    .slide-placeholder .ph-text { font-size: .72rem; color: rgba(255,255,255,.4); text-align: center; }
+
+    .slide-dots { display: flex; justify-content: center; gap: 7px; margin-top: 16px; }
+    .dot-ind {
+      width: 7px; height: 7px; border-radius: 4px;
+      background: rgba(255,255,255,.25); cursor: pointer;
+      transition: all .25s;
+    }
+    .dot-ind.active { background: #7abcd8; width: 20px; }
+
+    /* ══════════════════════════════
+       YOUTUBE
+    ══════════════════════════════ */
+    .yt-channel-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #e6f2fb; border: 1px solid var(--blue-border);
+      border-radius: 20px; padding: 5px 14px; margin-bottom: 16px;
+      font-size: .78rem; color: var(--blue-mid);
+    }
+    .yt-logo {
+      width: 20px; height: 14px; background: #ff0000;
+      border-radius: 3px; display: flex; align-items: center; justify-content: center;
+      font-size: 7px; color: white;
+    }
+    .yt-channel-card {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 14px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      border-radius: var(--radius-md);
+      padding: 36px 24px;
+      margin-bottom: 14px;
+      text-align: center;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .yt-channel-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,74,114,.25); }
+    .yt-play-btn {
+      width: 64px; height: 44px; background: #ff0000;
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: white;
+    }
+    .yt-channel-name { font-size: 1rem; font-weight: 600; color: #ffffff; letter-spacing: .05em; }
+    .yt-channel-desc { font-size: .78rem; color: rgba(255,255,255,.6); }
+    .yt-visit-btn {
+      margin-top: 4px; padding: 8px 22px;
+      background: #ff0000; color: white;
+      border-radius: 20px; font-size: .78rem; font-weight: 500;
+    }
+
+    .yt-shortcut-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
+    }
+    .yt-shortcut {
+      background: var(--bg-card);
+      border: 1px solid var(--blue-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 12px;
+      display: flex; gap: 10px; align-items: center;
+      cursor: pointer; transition: border-color .2s, transform .15s;
+    }
+    .yt-shortcut:hover { border-color: var(--blue-mid); transform: translateY(-2px); }
+    .yt-icon {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--blue-pale); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--blue-mid);
+    }
+    .yt-label { font-size: .78rem; font-weight: 500; color: var(--text-main); }
+    .yt-sub   { font-size: .7rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* ══════════════════════════════
+       AI + THEOLOGY 兩欄
+    ══════════════════════════════ */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    /* 新聞列表 */
+    .news-list { display: flex; flex-direction: column; gap: 10px; }
+    .news-item {
+      background: var(--bg-card);
+      border: 1px solid var(--blue-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex; gap: 12px; align-items: flex-start;
+      transition: border-color .2s;
+    }
+    .news-item:hover { border-color: var(--blue-soft); }
+    .news-dot {
+      width: 8px; height: 8px; background: var(--blue-soft);
+      border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+    }
+    .news-text { font-size: .82rem; color: var(--text-main); line-height: 1.55; margin-bottom: 3px; }
+    .news-date { font-size: .7rem; color: var(--text-hint); }
+
+    /* 神學卡片 */
+    .theo-card {
+      background: #eaf3fb;
+      border: 1px solid var(--blue-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px; margin-bottom: 10px;
+      transition: border-color .2s;
+    }
+    .theo-card:hover { border-color: var(--blue-soft); }
+    .theo-card:last-child { margin-bottom: 0; }
+    .theo-tag {
+      display: inline-block;
+      background: #c4dcee; color: var(--blue-mid);
+      font-size: .68rem; padding: 2px 10px;
+      border-radius: 10px; margin-bottom: 7px;
+      letter-spacing: .04em;
+    }
+    .theo-text { font-size: .82rem; color: var(--text-main); line-height: 1.6; }
+    .theo-date { font-size: .7rem; color: var(--text-hint); margin-top: 6px; }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--blue-deep);
+      padding: 24px 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: var(--font-serif);
+      font-size: .9rem; color: #b8d8f0; letter-spacing: .06em;
+    }
+    .footer-meta { font-size: .72rem; color: #6098b8; text-align: right; }
+
+    /* ══════════════════════════════
+       RWD
+    ══════════════════════════════ */
+    @media (max-width: 720px) {
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 5vw 36px; }
+      .hero-visual { height: 250px; }
+      .two-col { grid-template-columns: 1fr; gap: 20px; }
+      .yt-shortcut-grid { grid-template-columns: 1fr; }
+      .slide-card { flex: 0 0 calc(80% - 7px); }
+      .nav-links { display: none; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .footer-meta { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAV ══ -->
+  <nav>
+    <div class="nav-logo">Winton <span>家族空間</span> ✦</div>
+    <ul class="nav-links">
+      <li><a href="#album">相簿</a></li>
+      <li><a href="#youtube">影片</a></li>
+      <li><a href="#ai">AI 資訊</a></li>
+      <li><a href="#theology">神學</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <div class="hero">
+    <div class="fade-up">
+      <div class="hero-eyebrow">Welcome · 歡迎來到我們的空間</div>
+      <h1>記錄生命，<br>分享美好</h1>
+      <p>攝影、信仰、AI 知識與家人的故事，<br>都在這裡匯聚。</p>
+      <a class="hero-btn" href="https://www.youtube.com/@wintonh" target="_blank" rel="noopener">
+        探索我的頻道 →
+      </a>
+    </div>
+    <div class="hero-visual fade-up delay-2">
+      <img class="camera" src="photos/wintoncamra.jpg" alt="Winton" />
+      <div class="hero-tag">@wintonh · 攝影與生活記錄</div>
+    </div>
+  </div>
+
+  <!-- ══ ALBUM（家族相簿輪播）══ -->
+  <section id="album" class="album-section">
+    <div class="album-inner">
+      <div class="album-header">
+        <div>
+          <div class="album-eyebrow">Family Album · 家族相簿</div>
+          <div class="album-title">我們的珍貴時刻</div>
+        </div>
+        <div class="slide-controls">
+          <div class="slide-btn" id="prevBtn">‹</div>
+          <div class="slide-btn" id="nextBtn">›</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slides-viewport">
+      <div class="slides-track" id="slidesTrack">
+
+        <!--
+          ┌─────────────────────────────────────────────────────────────┐
+          │  如何換成真實照片：                                           │
+          │  把下方 style="" 內的 background-color 換成：                 │
+          │  background-image: url('photos/你的檔名.jpg')                 │
+          │  例如：style="background-image:url('photos/family01.jpg')"   │
+          │  照片放在與 index.html 同層的 photos/ 資料夾內                 │
+          └─────────────────────────────────────────────────────────────┘
+        -->
+
+        <div class="slide-card">
+          <div class="slide-photo" style="background-image:url('photos/family01.jpg')">
+            <div class="slide-overlay">
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card">
+          <div class="slide-photo" style="background-image:url('photos/family02.jpg')">
+            <div class="slide-overlay">
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card">
+          <div class="slide-photo" style="background-image:url('photos/family03.jpg')">
+            <div class="slide-overlay">
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card">
+          <div class="slide-photo" style="background-image:url('photos/family04.jpg')">
+            <div class="slide-overlay">
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card">
+          <div class="slide-photo" style="background-image:url('photos/family05.jpg')">
+            <div class="slide-overlay">
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card">
+          <div class="slide-photo" style="background-image:url('photos/family06.jpg')">
+            <div class="slide-overlay">
+              
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-dots" id="slideDots">
+      <div class="dot-ind active" data-i="0"></div>
+      <div class="dot-ind" data-i="1"></div>
+      <div class="dot-ind" data-i="2"></div>
+      <div class="dot-ind" data-i="3"></div>
+    </div>
+  </section>
+
+  <!-- ══ YOUTUBE ══ -->
+  <section id="youtube">
+    <div class="sec-header">
+      <div>
+        <div class="sec-eyebrow">YouTube Channel</div>
+        <div class="sec-title">最新影片</div>
+      </div>
+      <a class="sec-more" href="https://www.youtube.com/@wintonh" target="_blank" rel="noopener">前往頻道 →</a>
+    </div>
+
+    <div class="yt-channel-tag">
+      <div class="yt-logo">▶</div>
+      @wintonh · Winton Huang
+    </div>
+
+    <a class="yt-channel-card" href="https://www.youtube.com/@wintonh" target="_blank" rel="noopener">
+      <div class="yt-play-btn">▶</div>
+      <div class="yt-channel-name">Winton Huang</div>
+      <div class="yt-channel-desc">攝影・生活・家族記錄</div>
+      <div class="yt-visit-btn">前往 YouTube 頻道</div>
+    </a>
+
+    <div class="yt-shortcut-grid">
+      <a class="yt-shortcut" href="https://www.youtube.com/@wintonh" target="_blank" rel="noopener">
+        <div class="yt-icon">▶</div>
+        <div><div class="yt-label">最新上傳</div><div class="yt-sub">前往頻道首頁</div></div>
+      </a>
+      <a class="yt-shortcut" href="https://www.youtube.com/@wintonh/videos" target="_blank" rel="noopener">
+        <div class="yt-icon">☰</div>
+        <div><div class="yt-label">所有影片</div><div class="yt-sub">攝影與生活記錄</div></div>
+      </a>
+      <a class="yt-shortcut" href="https://www.youtube.com/@wintonh/playlists" target="_blank" rel="noopener">
+        <div class="yt-icon">♫</div>
+        <div><div class="yt-label">播放清單</div><div class="yt-sub">系列主題整理</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ AI + THEOLOGY ══ -->
+  <section>
+    <div class="two-col">
+
+      <!-- AI 資訊 -->
+      <div id="ai">
+        <div class="sec-eyebrow">AI Updates</div>
+        <div class="sec-title" style="margin-bottom:18px;">AI 最新資訊</div>
+        <div class="news-list">
+          <div class="news-item">
+            <div class="news-dot"></div>
+            <div>
+              <div class="news-text">Claude Sonnet 4.6：推理能力大幅升級，多模態更強</div>
+              <div class="news-date">2025-04-28</div>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-dot"></div>
+            <div>
+              <div class="news-text">Google Gemini 2.5 Pro 正式發布，長文脈絡處理突破</div>
+              <div class="news-date">2025-04-24</div>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-dot"></div>
+            <div>
+              <div class="news-text">AI 輔助數位典藏：DSpace 9 整合 LLM 的新趨勢</div>
+              <div class="news-date">2025-04-20</div>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-dot"></div>
+            <div>
+              <div class="news-text">開源模型 Llama 4 在圖書館知識管理的應用研究</div>
+              <div class="news-date">2025-04-15</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 神學資訊 -->
+      <div id="theology">
+        <div class="sec-eyebrow">Theology &amp; Faith</div>
+        <div class="sec-title" style="margin-bottom:18px;">神學最新資訊</div>
+        <div class="theo-card">
+          <div class="theo-tag">系統神學</div>
+          <div class="theo-text">新約研究期刊最新一期：保羅書信詮釋的跨文化視角</div>
+          <div class="theo-date">2025-04-27</div>
+        </div>
+        <div class="theo-card">
+          <div class="theo-tag">信仰與文化</div>
+          <div class="theo-text">當代福音信仰在亞洲神學院的傳承與發展近況</div>
+          <div class="theo-date">2025-04-21</div>
+        </div>
+        <div class="theo-card">
+          <div class="theo-tag">教會歷史</div>
+          <div class="theo-text">宗教改革脈絡下的台灣基督長老教會歷史研究新進展</div>
+          <div class="theo-date">2025-04-14</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-logo">Winton 家族空間 ✦</div>
+    <div class="footer-meta">
+      © 2025 · 以愛記錄每一刻<br>
+      Taiwan · 中信神學院圖書館
+    </div>
+  </footer>
+
+  <!-- ══ SLIDESHOW JS ══ -->
+  <script>
+    (function () {
+      const track  = document.getElementById('slidesTrack');
+      const dots   = document.querySelectorAll('.dot-ind');
+      const cards  = document.querySelectorAll('.slide-card');
+      const prev   = document.getElementById('prevBtn');
+      const next   = document.getElementById('nextBtn');
+
+      let current = 0;
+      const visible = window.innerWidth <= 720 ? 1 : 3;
+      const total   = cards.length - visible + 1;
+
+      function cardW() {
+        return cards[0] ? cards[0].offsetWidth + 14 : 0;
+      }
+
+      function goTo(i) {
+        current = Math.max(0, Math.min(i, total - 1));
+        track.style.transform = 'translateX(-' + (current * cardW()) + 'px)';
+        dots.forEach(function (d, idx) {
+          d.classList.toggle('active', idx === current);
+        });
+      }
+
+      prev.addEventListener('click', function () { goTo(current - 1); });
+      next.addEventListener('click', function () { goTo(current + 1); });
+      dots.forEach(function (d) {
+        d.addEventListener('click', function () { goTo(parseInt(d.dataset.i)); });
+      });
+
+      // 自動輪播
+      var timer = setInterval(function () {
+        goTo(current + 1 < total ? current + 1 : 0);
+      }, 4000);
+
+      // 滑鼠移入暫停
+      track.addEventListener('mouseenter', function () { clearInterval(timer); });
+      track.addEventListener('mouseleave', function () {
+        timer = setInterval(function () {
+          goTo(current + 1 < total ? current + 1 : 0);
+        }, 4000);
+      });
+    })();
+  </script>
+
+</body>
+</html>
